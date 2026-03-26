@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Y2K retro landing page with fluid simulation background">
+  <title>Welcome // Y2K</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Fluid simulation canvas -->
+  <canvas id="fluid-canvas"></canvas>
+
+  <!-- CRT scanline overlay -->
+  <div class="crt-overlay"></div>
+
+  <!-- Vignette edge darkening -->
+  <div class="vignette"></div>
+
+  <!-- Main content -->
+  <main class="landing-container">
+    <div class="text-block">
+      <p class="line-1">
+        <span class="prompt">&gt; </span><span id="typed-text"></span>
+      </p>
+      <p class="line-2-wrap">
+        <span class="prompt">&gt; </span><span class="line-2" id="welcome-text">Welcome!</span><span class="cursor" id="cursor"></span>
+      </p>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
