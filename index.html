@@ -22,11 +22,23 @@
   <main class="landing-container">
     <div class="text-block">
       <p class="line-1">
-        <span class="prompt">&gt; </span><span id="typed-text"></span>
+        <span class="prompt">&gt; </span><span id="typed-text-1"></span><span class="cursor" id="cursor-1"></span>
       </p>
-      <p class="line-2-wrap">
-        <span class="prompt">&gt; </span><span class="line-2" id="welcome-text">Welcome!</span><span class="cursor" id="cursor"></span>
+      <p class="line-2-wrap" id="welcome-wrap">
+        <span class="prompt prompt-btn" id="nav-toggle" title="Click to navigate">&gt; </span><span class="line-2" id="typed-text-2"></span><span class="cursor hidden" id="cursor-2"></span>
       </p>
+      <nav class="nav-menu" id="nav-menu">
+        <div class="nav-item-wrapper">
+          <a href="#about" class="nav-link" onclick="event.preventDefault();"><span class="tree-branch">├── </span><span id="nav-typed-1"></span></a>
+          <div class="about-content">
+            <div class="glass-panel">
+              Computer Science undergraduate with strong foundations in Java development, Data Structures &amp; Algorithms and data engineering concepts. Experienced in building data-driven applications and analytical systems using Python, Java, and modern visualization tools. Interested in data engineering, backend development, and scalable data systems. Actively practicing algorithmic problem solving and building portfolio projects involving real-world datasets.
+            </div>
+          </div>
+        </div>
+        <a href="#projects" class="nav-link"><span class="tree-branch">├── </span><span id="nav-typed-2"></span></a>
+        <a href="#contact" class="nav-link"><span class="tree-branch">└── </span><span id="nav-typed-3"></span></a>
+      </nav>
     </div>
   </main>
 

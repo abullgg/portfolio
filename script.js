@@ -1,5 +1,6 @@
 /* ============================================
-   FLUID SIMULATION — Metaball / Lava-lamp blobs
+   SIMPLE PARTICLE BACKGROUND
+   Drifting dots — clean, minimal, Y2K-friendly
    ============================================ */
 
 (function () {
@@ -7,6 +8,8 @@
   const ctx = canvas.getContext('2d');
 
   let width, height;
+  let mouseX = -9999;
+  let mouseY = -9999;
 
   function resize() {
     width = canvas.width = window.innerWidth;
@@ -16,138 +19,115 @@
   window.addEventListener('resize', resize);
   resize();
 
-  // ---------- Blob class (sine-wave orbital motion) ----------
-  class Blob {
+  // Track mouse
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  document.addEventListener('mouseleave', () => {
+    mouseX = -9999;
+    mouseY = -9999;
+  });
+
+  // ---------- Particle class ----------
+  class Particle {
     constructor() {
-      this.radius = 80 + Math.random() * 160;
-      // Base position — anchor point the blob orbits around
+      // Base anchor position
       this.baseX = Math.random() * width;
       this.baseY = Math.random() * height;
-      // Orbital radii — how far the blob drifts from its anchor
-      this.orbitX = 60 + Math.random() * 200;
-      this.orbitY = 60 + Math.random() * 200;
-      // Speed and phase offset — each blob has a unique rhythm
-      this.speedX = (0.0003 + Math.random() * 0.0006) * (Math.random() > 0.5 ? 1 : -1);
-      this.speedY = (0.0003 + Math.random() * 0.0006) * (Math.random() > 0.5 ? 1 : -1);
+      // Current position
+      this.x = this.baseX;
+      this.y = this.baseY;
+      this.size = 1 + Math.random() * 1.8;
+      this.opacity = 0.08 + Math.random() * 0.18;
+      // Orbital drift — each particle has its own rhythm
+      this.orbitX = 30 + Math.random() * 80;
+      this.orbitY = 30 + Math.random() * 80;
+      this.speedX = (0.00012 + Math.random() * 0.00025) * (Math.random() > 0.5 ? 1 : -1);
+      this.speedY = (0.00012 + Math.random() * 0.00025) * (Math.random() > 0.5 ? 1 : -1);
       this.phaseX = Math.random() * Math.PI * 2;
       this.phaseY = Math.random() * Math.PI * 2;
+      // Offset for smooth mouse push recovery
+      this.pushX = 0;
+      this.pushY = 0;
     }
 
     update(time) {
-      this.x = this.baseX + Math.sin(time * this.speedX + this.phaseX) * this.orbitX;
-      this.y = this.baseY + Math.cos(time * this.speedY + this.phaseY) * this.orbitY;
+      // Target position from orbit
+      const targetX = this.baseX + Math.sin(time * this.speedX + this.phaseX) * this.orbitX;
+      const targetY = this.baseY + Math.cos(time * this.speedY + this.phaseY) * this.orbitY;
+
+      // Mouse repulsion
+      const dx = targetX + this.pushX - mouseX;
+      const dy = targetY + this.pushY - mouseY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const repelRadius = 130;
+
+      if (dist < repelRadius && dist > 0) {
+        const force = (repelRadius - dist) / repelRadius;
+        this.pushX += (dx / dist) * force * 2.5;
+        this.pushY += (dy / dist) * force * 2.5;
+      }
+
+      // Ease push back to zero (smooth recovery)
+      this.pushX *= 0.95;
+      this.pushY *= 0.95;
+
+      this.x = targetX + this.pushX;
+      this.y = targetY + this.pushY;
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0, ${90 + Math.floor(this.phaseX * 10) % 30}, ${20 + Math.floor(this.phaseY * 8) % 15}, ${this.opacity})`;
+      ctx.fill();
     }
   }
 
-  // Create blobs
-  const blobCount = 8;
-  const blobs = [];
-  for (let i = 0; i < blobCount; i++) {
-    blobs.push(new Blob());
+  // Create particles
+  const particleCount = 200;
+  const particles = [];
+  for (let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
   }
 
-  // ---------- Mouse-interactive blob ----------
-  const mouseBlob = {
-    x: -9999,
-    y: -9999,
-    radius: 0,
-    targetRadius: 0,
-  };
+  // ---------- Draw faint connecting lines between nearby particles ----------
+  function drawConnections() {
+    const maxDist = 130;
 
-  // Track mouse position
-  document.addEventListener('mousemove', (e) => {
-    mouseBlob.x = e.clientX;
-    mouseBlob.y = e.clientY;
-    mouseBlob.targetRadius = 180;
-  });
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
 
-  // Shrink when mouse leaves the window
-  document.addEventListener('mouseleave', () => {
-    mouseBlob.targetRadius = 0;
-  });
-
-  // Smooth radius transition
-  function updateMouseBlob() {
-    mouseBlob.radius += (mouseBlob.targetRadius - mouseBlob.radius) * 0.08;
-  }
-
-  // ---------- Metaball rendering via pixel manipulation ----------
-  // For performance we render at lower resolution and scale up
-  const scale = 4;
-  const offCanvas = document.createElement('canvas');
-  const offCtx = offCanvas.getContext('2d');
-
-  function resizeOff() {
-    offCanvas.width = Math.ceil(width / scale);
-    offCanvas.height = Math.ceil(height / scale);
-  }
-
-  window.addEventListener('resize', resizeOff);
-  resizeOff();
-
-  function renderMetaballs() {
-    const w = offCanvas.width;
-    const h = offCanvas.height;
-    const imageData = offCtx.createImageData(w, h);
-    const data = imageData.data;
-
-    for (let y = 0; y < h; y++) {
-      for (let x = 0; x < w; x++) {
-        let sum = 0;
-        const px = x * scale;
-        const py = y * scale;
-
-        for (let i = 0; i < blobs.length; i++) {
-          const b = blobs[i];
-          const dx = px - b.x;
-          const dy = py - b.y;
-          const distSq = dx * dx + dy * dy;
-          sum += (b.radius * b.radius) / distSq;
-        }
-
-        // Mouse blob contribution
-        if (mouseBlob.radius > 1) {
-          const mdx = px - mouseBlob.x;
-          const mdy = py - mouseBlob.y;
-          const mdistSq = mdx * mdx + mdy * mdy;
-          sum += (mouseBlob.radius * mouseBlob.radius) / mdistSq;
-        }
-
-        const idx = (y * w + x) * 4;
-
-        if (sum > 1.0) {
-          // Inside metaball — grey-green tones
-          const intensity = Math.min(sum - 1.0, 1.0);
-          const grey = Math.floor(18 + intensity * 30);
-          const green = Math.floor(18 + intensity * 45);
-          data[idx] = grey;           // R
-          data[idx + 1] = green;      // G
-          data[idx + 2] = grey;       // B
-          data[idx + 3] = 200;        // A
-        } else {
-          // Background — near black
-          data[idx] = 10;
-          data[idx + 1] = 10;
-          data[idx + 2] = 10;
-          data[idx + 3] = 255;
+        if (dist < maxDist) {
+          const alpha = (1 - dist / maxDist) * 0.08;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(0, 200, 50, ${alpha})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
         }
       }
     }
-
-    offCtx.putImageData(imageData, 0, 0);
-
-    // Draw scaled up — disable smoothing for pixelated lo-fi look
-    ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(offCanvas, 0, 0, width, height);
   }
 
-  // ---------- Animation loop (time-based for seamless infinite motion) ----------
+  // ---------- Animation loop ----------
   function animate(time) {
-    updateMouseBlob();
-    for (let i = 0; i < blobs.length; i++) {
-      blobs[i].update(time);
+    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = 'rgba(10, 10, 10, 1)';
+    ctx.fillRect(0, 0, width, height);
+
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update(time);
+      particles[i].draw();
     }
-    renderMetaballs();
+
+    drawConnections();
     requestAnimationFrame(animate);
   }
 
@@ -155,31 +135,95 @@
 })();
 
 
-
 /* ============================================
    TYPEWRITER EFFECT
    ============================================ */
 
 (function () {
-  const text = 'hi, so you are here??';
-  const typedEl = document.getElementById('typed-text');
-  const welcomeWrap = document.querySelector('.line-2-wrap');
-  let charIndex = 0;
+  const text1 = 'hi, so you are here??';
+  const typedEl1 = document.getElementById('typed-text-1');
+  const cursor1 = document.getElementById('cursor-1');
 
-  function typeChar() {
-    if (charIndex < text.length) {
-      typedEl.textContent += text.charAt(charIndex);
-      charIndex++;
+  const text2 = 'Welcome!';
+  const typedEl2 = document.getElementById('typed-text-2');
+  const welcomeWrap = document.getElementById('welcome-wrap');
+  const cursor2 = document.getElementById('cursor-2');
+
+  let charIndex1 = 0;
+  let charIndex2 = 0;
+
+  function typeLine1() {
+    if (charIndex1 < text1.length) {
+      typedEl1.textContent += text1.charAt(charIndex1);
+      charIndex1++;
       const delay = 60 + Math.random() * 80; // Variable speed for realism
-      setTimeout(typeChar, delay);
+      setTimeout(typeLine1, delay);
     } else {
-      // Typing done — show "Welcome!" line with cursor after a pause
+      // Line 1 done — pause, hide cursor 1, show line 2 with cursor 2, then type Welcome
       setTimeout(() => {
+        cursor1.classList.add('hidden');
         welcomeWrap.classList.add('visible');
+        cursor2.classList.remove('hidden');
+        setTimeout(typeLine2, 400); // slight delay before typing Welcome!
       }, 600);
     }
   }
 
+  function typeLine2() {
+    if (charIndex2 < text2.length) {
+      typedEl2.textContent += text2.charAt(charIndex2);
+      charIndex2++;
+      const delay = 60 + Math.random() * 80;
+      setTimeout(typeLine2, delay);
+    }
+  }
+
   // Start typing after a brief delay
-  setTimeout(typeChar, 800);
+  setTimeout(typeLine1, 800);
+})();
+
+
+/* ============================================
+   NAV MENU TOGGLE
+   ============================================ */
+
+(function () {
+  const navToggle = document.getElementById('nav-toggle');
+  const navMenu = document.getElementById('nav-menu');
+  
+  const navTexts = ['about', 'projects', 'contact'];
+  const typedNavEls = [
+    document.getElementById('nav-typed-1'),
+    document.getElementById('nav-typed-2'),
+    document.getElementById('nav-typed-3')
+  ];
+  
+  let navTyped = false;
+
+  navToggle.addEventListener('click', () => {
+    navMenu.classList.toggle('open');
+    
+    // Type out nav texts if opening for the first time
+    if (!navTyped && navMenu.classList.contains('open')) {
+      navTyped = true;
+      let charIndices = [0, 0, 0];
+      
+      function typeNav() {
+        let allDone = true;
+        for (let i = 0; i < 3; i++) {
+          if (charIndices[i] < navTexts[i].length) {
+            typedNavEls[i].textContent += navTexts[i].charAt(charIndices[i]);
+            charIndices[i]++;
+            allDone = false;
+          }
+        }
+        if (!allDone) {
+          setTimeout(typeNav, 40 + Math.random() * 60);
+        }
+      }
+      
+      // Delay nav typing slightly so the menu has time to slide open
+      setTimeout(typeNav, 200);
+    }
+  });
 })();
