@@ -226,4 +226,88 @@
       setTimeout(typeNav, 200);
     }
   });
+
+  // About panel toggle via click
+  const aboutLink = document.getElementById('about-link');
+  const aboutWrapper = document.getElementById('about-wrapper');
+
+  if (aboutLink && aboutWrapper) {
+    aboutLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      aboutWrapper.classList.toggle('open');
+    });
+  }
+
+  // Contact panel toggle via click
+  const contactLink = document.getElementById('contact-link');
+  const contactWrapper = document.getElementById('contact-wrapper');
+
+  if (contactLink && contactWrapper) {
+    contactLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      contactWrapper.classList.toggle('open');
+    });
+  }
+
+  // Projects panel toggle via click
+  const projectsLink = document.getElementById('projects-link');
+  const projectsWrapper = document.getElementById('projects-wrapper');
+
+  if (projectsLink && projectsWrapper) {
+    projectsLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      projectsWrapper.classList.toggle('open');
+      
+      // Close details if closing the main project tab to keep it tidy
+      if (!projectsWrapper.classList.contains('open')) {
+        const pgDetailsContent = document.getElementById('phishguard-details-content');
+        if (pgDetailsContent) pgDetailsContent.classList.remove('show');
+      }
+    });
+  }
+
+  // PhishGuard details toggle
+  const pgDetailsLink = document.getElementById('phishguard-details-link');
+  const pgDetailsContent = document.getElementById('phishguard-details-content');
+
+  if (pgDetailsLink && pgDetailsContent) {
+    pgDetailsLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      pgDetailsContent.classList.toggle('show');
+    });
+  }
+
+  // Copy email to clipboard
+  const copyEmailBtn = document.getElementById('copy-email');
+  if (copyEmailBtn) {
+    copyEmailBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText('hassanabul9279@gmail.com');
+        copyEmailBtn.textContent = '[copied!]';
+        copyEmailBtn.classList.add('copied');
+        
+        setTimeout(() => {
+          copyEmailBtn.textContent = '[c]';
+          copyEmailBtn.classList.remove('copied');
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy email: ', err);
+      }
+    });
+  }
+
+  // Acknowledge download resume click
+  const downloadResumeBtn = document.getElementById('download-resume');
+  if (downloadResumeBtn) {
+    downloadResumeBtn.addEventListener('click', () => {
+      downloadResumeBtn.textContent = '[downloading...]';
+      // Reusing the .copied class for the glowing green text effect
+      downloadResumeBtn.classList.add('copied');
+      
+      setTimeout(() => {
+        downloadResumeBtn.textContent = '[d]';
+        downloadResumeBtn.classList.remove('copied');
+      }, 2500);
+    });
+  }
 })();

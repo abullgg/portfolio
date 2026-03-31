@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Y2K retro landing page with fluid simulation background">
   <title>Welcome // Y2K</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=12">
 </head>
+
 <body>
 
   <!-- Fluid simulation canvas -->
@@ -18,6 +20,9 @@
   <!-- Vignette edge darkening -->
   <div class="vignette"></div>
 
+  <!-- Logo tag top left -->
+  <div class="logo-tag">Abul Hassan.dev</div>
+
   <!-- Main content -->
   <main class="landing-container">
     <div class="text-block">
@@ -25,23 +30,71 @@
         <span class="prompt">&gt; </span><span id="typed-text-1"></span><span class="cursor" id="cursor-1"></span>
       </p>
       <p class="line-2-wrap" id="welcome-wrap">
-        <span class="prompt prompt-btn" id="nav-toggle" title="Click to navigate">&gt; </span><span class="line-2" id="typed-text-2"></span><span class="cursor hidden" id="cursor-2"></span>
+        <span class="prompt prompt-btn" id="nav-toggle" title="Click to navigate">&gt; </span><span class="line-2"
+          id="typed-text-2"></span><span class="cursor hidden" id="cursor-2"></span>
       </p>
       <nav class="nav-menu" id="nav-menu">
-        <div class="nav-item-wrapper">
-          <a href="#about" class="nav-link" onclick="event.preventDefault();"><span class="tree-branch">├── </span><span id="nav-typed-1"></span></a>
-          <div class="about-content">
+        <div class="nav-item-wrapper" id="about-wrapper">
+          <a href="#about" class="nav-link" id="about-link" onclick="event.preventDefault();"><span
+              class="tree-branch">├── </span><span id="nav-typed-1"></span></a>
+          <div class="dropdown-content">
             <div class="glass-panel">
-              Computer Science undergraduate with strong foundations in Java development, Data Structures &amp; Algorithms and data engineering concepts. Experienced in building data-driven applications and analytical systems using Python, Java, and modern visualization tools. Interested in data engineering, backend development, and scalable data systems. Actively practicing algorithmic problem solving and building portfolio projects involving real-world datasets.
+              Computer Science student building backend systems and data-driven applications.<br>
+              Comfortable with Java, Python, and DSA, and currently exploring real-time analytics and AI-assisted
+              development.<br>
+              I like turning raw data into dashboards and more than dashboards.
             </div>
           </div>
         </div>
-        <a href="#projects" class="nav-link"><span class="tree-branch">├── </span><span id="nav-typed-2"></span></a>
-        <a href="#contact" class="nav-link"><span class="tree-branch">└── </span><span id="nav-typed-3"></span></a>
+
+        <div class="nav-item-wrapper" id="projects-wrapper">
+          <a href="#projects" class="nav-link" id="projects-link" onclick="event.preventDefault();"><span class="tree-branch">├── </span><span id="nav-typed-2"></span></a>
+          <div class="dropdown-content">
+            <div class="glass-panel project-panel">
+              <span class="matrix-highlight">[1] PhishGuard</span><br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>ML-based phishing detection system<br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Real-time URL analysis with confidence scoring<br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Django + Scikit-learn backend<br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span><a href="https://phishgaurd-86eh.onrender.com" target="_blank" rel="noopener noreferrer" class="contact-external-link">[Live Demo]</a> &nbsp;<a href="https://github.com/abullgg/Phishgaurd" target="_blank" rel="noopener noreferrer" class="contact-external-link">[GitHub]</a> &nbsp;<a href="#details" class="contact-external-link" id="phishguard-details-link" onclick="event.preventDefault();">[Details]</a>
+              
+              <div id="phishguard-details-content" class="project-details">
+                <span class="prompt">&gt; project: PhishGuard</span><br><br>
+                A full-stack machine learning application designed to detect zero-day phishing URLs through real-time lexical analysis.<br><br>
+                Instead of relying on static blocklists, the system uses a TF-IDF vectorizer with a Logistic Regression model to evaluate URL patterns and assign confidence-based predictions. The model is loaded globally to eliminate runtime latency and optimize inference speed.<br><br>
+                The platform includes a RESTful API for integration and an internal dashboard for tracking predictions, enabling monitoring of threat patterns and system performance.<br><br>
+                Focus: real-time ML inference, backend architecture, and security-focused application design.<br><br>
+                Tech: Python, Django, Scikit-learn, Pandas, Tailwind CSS
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item-wrapper" id="contact-wrapper">
+          <a href="#contact" class="nav-link" id="contact-link" onclick="event.preventDefault();"><span
+              class="tree-branch">└── </span><span id="nav-typed-3"></span></a>
+          <div class="dropdown-content">
+            <div class="retro-tree-panel">
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;├─ </span><a href="https://www.linkedin.com/in/abul-hassangg"
+                target="_blank" rel="noopener noreferrer" class="contact-external-link">LinkedIn</a><br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;├─ </span><a href="https://github.com/abullgg" target="_blank"
+                rel="noopener noreferrer" class="contact-external-link">GitHub</a><br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;├─ </span><a
+                href="https://drive.google.com/file/d/1N3kH4jjJiE2oCB40Sh09ejhF7Tya0WNO/view?usp=sharing"
+                target="_blank" rel="noopener noreferrer" class="contact-external-link">Resume</a><sub
+                class="sub-action"><a
+                  href="https://drive.google.com/uc?export=download&amp;id=1N3kH4jjJiE2oCB40Sh09ejhF7Tya0WNO"
+                  title="Download Resume" class="sub-link" id="download-resume">[d]</a></sub><br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;└─ </span><a href="mailto:hassanabul9279@gmail.com"
+                class="contact-external-link">Email</a><sub class="sub-action copy-btn" id="copy-email"
+                title="Copy email address">[c]</sub>
+            </div>
+          </div>
+        </div>
       </nav>
     </div>
   </main>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=12"></script>
 </body>
+
 </html>

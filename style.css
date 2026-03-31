@@ -27,7 +27,8 @@
 html, body {
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background: var(--bg-black);
   color: var(--matrix-green);
   font-family: var(--font-cli);
@@ -80,6 +81,30 @@ html, body {
   100% { opacity: 0.98; }
 }
 
+/* ===== Logo Tag ===== */
+.logo-tag {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  padding: 0.6rem 1.4rem;
+  background: rgba(0, 255, 65, 0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 255, 65, 0.2);
+  border-radius: 50px;
+  color: var(--matrix-green);
+  font-family: var(--font-cli);
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
+  text-shadow: 
+    0 0 5px rgba(0, 255, 65, 0.5),
+    0 0 10px rgba(0, 255, 65, 0.2);
+  z-index: 5;
+  user-select: none;
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3), 
+    inset 0 0 10px rgba(0, 255, 65, 0.05);
+}
+
 /* ===== Main Content ===== */
 .landing-container {
   position: relative;
@@ -87,10 +112,10 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
-  height: 100%;
-  padding: 2rem 4rem;
+  min-height: 100vh;
+  padding: 6rem 4rem;
 }
 
 /* ===== Text Selection Color ===== */
@@ -108,6 +133,7 @@ html, body {
 .text-block {
   text-align: left;
   max-width: 800px;
+  margin: auto 0;
   /* Slight pixelation to make text feel lo-fi like the background */
   filter: contrast(1.1) brightness(0.95);
   -webkit-font-smoothing: none;
@@ -228,7 +254,7 @@ html, body {
 }
 
 .nav-menu.open {
-  max-height: 800px;
+  max-height: 4000px;
   opacity: 1;
   margin-top: 1rem;
 }
@@ -266,18 +292,25 @@ html, body {
   flex-direction: column;
 }
 
-.about-content {
+.dropdown-content {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
   transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.4s ease;
 }
 
-.nav-item-wrapper:hover .about-content,
-.nav-link:focus + .about-content {
-  max-height: 600px;
+.nav-item-wrapper.open .dropdown-content {
+  max-height: 2500px;
   opacity: 1;
   margin: 0.5rem 0 1rem 0;
+}
+
+.retro-tree-panel {
+  padding-left: 0.5rem;
+  font-family: var(--font-cli);
+  font-size: clamp(0.9rem, 2vw, 1.4rem);
+  line-height: 2;
+  margin-top: 0.5rem;
 }
 
 .glass-panel {
@@ -299,6 +332,88 @@ html, body {
     inset 0 0 15px rgba(0, 255, 65, 0.05);
   max-width: 650px;
   letter-spacing: 0.02em;
+}
+
+.contact-external-link {
+  color: var(--grey-light);
+  text-decoration: none;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+  line-height: 2;
+  display: inline-block;
+}
+
+.contact-external-link:hover {
+  color: var(--matrix-green);
+  text-shadow: 
+    0 0 5px rgba(0, 255, 65, 0.6),
+    0 0 15px rgba(0, 255, 65, 0.3);
+}
+
+.copy-btn {
+  cursor: pointer;
+  color: var(--grey-light);
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+  user-select: none;
+}
+
+.sub-action {
+  font-size: 0.6em;
+  margin-left: 4px;
+}
+
+.sub-link {
+  color: var(--grey-light);
+  text-decoration: none;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.sub-link:hover,
+.copy-btn:hover {
+  color: var(--matrix-green);
+  text-shadow: 
+    0 0 5px rgba(0, 255, 65, 0.6),
+    0 0 15px rgba(0, 255, 65, 0.3);
+}
+
+.copy-btn.copied {
+  color: var(--matrix-green);
+  text-shadow: 
+    0 0 8px rgba(0, 255, 65, 0.8),
+    0 0 20px rgba(0, 255, 65, 0.4);
+}
+
+/* ===== Projects Section ===== */
+.project-panel {
+  margin-top: 0.5rem;
+  font-size: clamp(0.85rem, 1.8vw, 1rem);
+  line-height: 1.6;
+}
+
+.matrix-highlight {
+  color: var(--matrix-green);
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+  font-weight: bold;
+}
+
+.project-details {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 1px dashed transparent;
+  font-size: 0.9em;
+  color: #e0e0e0;
+  line-height: 1.6;
+  transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.4s ease, padding 0.4s ease, border-color 0.4s ease;
+}
+
+.project-details.show {
+  max-height: 1000px;
+  opacity: 1;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed rgba(0, 255, 65, 0.3);
 }
 
 /* ===== Responsive ===== */
