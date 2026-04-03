@@ -1,6 +1,13 @@
 /* ===== Google Font Import ===== */
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
 
+@font-face {
+  font-family: 'Conta Pixel';
+  src: url('https://cdn.jsdelivr.net/gh/jenskutilek/quarantine-fonts@master/fonts/ContaPixel-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* ===== CSS Variables ===== */
 :root {
   --bg-black: #0a0a0a;
@@ -29,6 +36,7 @@ html, body {
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
+  scroll-behavior: smooth;
   background: var(--bg-black);
   color: var(--matrix-green);
   font-family: var(--font-cli);
@@ -93,8 +101,8 @@ html, body {
   border: 1px solid rgba(0, 255, 65, 0.2);
   border-radius: 50px;
   color: var(--matrix-green);
-  font-family: var(--font-cli);
-  font-size: clamp(0.85rem, 1.5vw, 1rem);
+  font-family: 'Conta Pixel', var(--font-cli);
+  font-size: clamp(1rem, 2vw, 1.4rem);
   text-shadow: 
     0 0 5px rgba(0, 255, 65, 0.5),
     0 0 10px rgba(0, 255, 65, 0.2);
@@ -227,10 +235,65 @@ html, body {
 }
 
 /* ===== Clickable Prompt Button ===== */
+@keyframes pulse-glow {
+  0% {
+    text-shadow: 0 0 5px rgba(0, 255, 65, 0.4);
+    color: var(--matrix-green-dim);
+  }
+  100% {
+    text-shadow: 
+      0 0 10px rgba(0, 255, 65, 0.8),
+      0 0 20px rgba(0, 255, 65, 0.4);
+    color: var(--matrix-green);
+  }
+}
+
 .prompt-btn {
   cursor: pointer;
-  transition: text-shadow 0.2s ease;
   user-select: none;
+  display: inline-block;
+  margin-right: 0.3em;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), text-shadow 0.2s ease;
+  transform-origin: center;
+  position: relative;
+}
+
+.prompt-btn.rotated {
+  transform: rotate(90deg);
+}
+
+@keyframes ping-shrink {
+  0% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+  10% { opacity: 0.8; border-width: 2px; }
+  100% { transform: translate(-50%, -50%) scale(0.1); opacity: 0; border-width: 0; }
+}
+
+.prompt-btn::before, .prompt-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2em;
+  height: 2em;
+  border: 1px solid var(--matrix-green);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.prompt-btn.pulse-active {
+  animation: pulse-glow 1.2s ease-in-out infinite alternate;
+  animation-delay: 1.2s; /* Wait for ripples to finish */
+}
+
+.prompt-btn.ping::before {
+  animation: ping-shrink 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+.prompt-btn.ping::after {
+  animation: ping-shrink 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+  animation-delay: 0.3s;
 }
 
 .prompt-btn:hover {
@@ -305,6 +368,8 @@ html, body {
   margin: 0.5rem 0 1rem 0;
 }
 
+
+
 .retro-tree-panel {
   padding-left: 0.5rem;
   font-family: var(--font-cli);
@@ -315,23 +380,42 @@ html, body {
 
 .glass-panel {
   margin-left: 2.5rem;
-  background: rgba(0, 255, 65, 0.03);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(0, 255, 65, 0.15);
-  border-left: 3px solid var(--matrix-green-dim);
-  border-radius: 4px 8px 8px 4px;
-  padding: 1.2rem;
+  background: rgba(0, 255, 65, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 255, 65, 0.2);
+  border-radius: 14px;
+  padding: 1.4rem 1.6rem;
   color: #e0e0e0;
   font-family: var(--font-cli);
   font-size: clamp(0.85rem, 1.8vw, 1rem);
   line-height: 1.5;
   text-shadow: 0 0 2px rgba(255, 255, 255, 0.15);
   box-shadow: 
-    0 10px 30px rgba(0, 0, 0, 0.4), 
+    0 8px 32px rgba(0, 0, 0, 0.4), 
     inset 0 0 15px rgba(0, 255, 65, 0.05);
   max-width: 650px;
   letter-spacing: 0.02em;
+}
+
+.glass-panel.inline-dropdown {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding: 0 1.6rem;
+  border-width: 0;
+  margin-left: 2.8rem;
+  margin-bottom: 0;
+  transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease, padding 0.3s ease, border-width 0.3s ease;
+}
+
+.glass-panel.inline-dropdown.open {
+  max-height: 1000px;
+  opacity: 1;
+  padding: 1.4rem 1.6rem;
+  border-width: 1px;
+  margin-top: 0.5rem;
+  margin-bottom: 1.2rem;
 }
 
 .contact-external-link {
@@ -395,25 +479,193 @@ html, body {
   font-weight: bold;
 }
 
-.project-details {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  margin-top: 0;
-  padding-top: 0;
-  border-top: 1px dashed transparent;
-  font-size: 0.9em;
-  color: #e0e0e0;
-  line-height: 1.6;
-  transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.4s ease, padding 0.4s ease, border-color 0.4s ease;
+.project-divider {
+  border: none;
+  border-top: 1px dashed rgba(0, 255, 65, 0.2);
+  margin: 1.2rem 0;
 }
 
-.project-details.show {
-  max-height: 1000px;
-  opacity: 1;
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px dashed rgba(0, 255, 65, 0.3);
+.status-badge {
+  color: #f0c040;
+  text-shadow: 0 0 4px rgba(240, 192, 64, 0.4);
+  font-size: 0.85em;
+}
+
+.contact-intro {
+  color: var(--grey-light);
+  font-size: clamp(0.75rem, 1.4vw, 0.88rem);
+  line-height: 1.5;
+  opacity: 0.6;
+  display: block;
+  margin-bottom: 0.6rem;
+  padding-left: 3.2em;
+}
+
+/* ===== Side Panels (Details + Resume) ===== */
+.details-side-panel {
+  position: fixed;
+  top: 5rem;
+  right: -50%;
+  width: 48%;
+  max-width: 620px;
+  height: calc(100vh - 7rem);
+  padding: 2.5rem 2rem;
+  overflow-y: auto;
+  z-index: 10;
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
+  line-height: 1.7;
+  color: #e0e0e0;
+  border-radius: 14px;
+  transition: right 0.45s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.details-side-panel.show {
+  right: 2rem;
+}
+
+.resume-side-panel {
+  position: fixed;
+  top: 5rem;
+  right: -55%;
+  width: 48%;
+  max-width: 620px;
+  height: calc(100vh - 7rem);
+  background: rgba(0, 255, 65, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 255, 65, 0.2);
+  border-radius: 14px;
+  padding: 2.5rem 1.2rem 1.2rem 1.2rem;
+  overflow: hidden;
+  z-index: 10;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 0 15px rgba(0, 255, 65, 0.05);
+  transition: right 0.45s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.resume-side-panel.show {
+  right: 2rem;
+}
+
+.resume-side-panel iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 16px;
+}
+
+.side-panel-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: 1px solid rgba(0, 255, 65, 0.3);
+  border-radius: 50%;
+  color: var(--matrix-green);
+  font-size: 1.3rem;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, text-shadow 0.2s ease;
+  line-height: 1;
+}
+
+.side-panel-close:hover {
+  background: rgba(0, 255, 65, 0.1);
+  text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+}
+
+/* ===== Terminal Contact Form ===== */
+.terminal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  margin-top: 1rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form-label {
+  font-family: var(--font-cli);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--grey-mid);
+  text-transform: uppercase;
+}
+
+.form-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+  padding: 0.6rem 0;
+  color: var(--matrix-green);
+  font-family: var(--font-cli);
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.form-input::placeholder {
+  color: rgba(255, 255, 255, 0.15);
+  font-family: var(--font-cli);
+}
+
+.form-input:focus {
+  border-bottom-color: var(--matrix-green);
+  box-shadow: 0 1px 0 rgba(0, 255, 65, 0.3);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+  max-height: 200px;
+}
+
+.form-submit {
+  margin-top: 0.5rem;
+  align-self: flex-start;
+  background: rgba(0, 255, 65, 0.08);
+  border: 1px solid rgba(0, 255, 65, 0.3);
+  border-radius: 10px;
+  color: var(--matrix-green);
+  font-family: var(--font-cli);
+  font-size: 1rem;
+  padding: 0.7rem 1.6rem;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+}
+
+.form-submit:hover {
+  background: rgba(0, 255, 65, 0.15);
+  box-shadow: 
+    0 0 10px rgba(0, 255, 65, 0.3),
+    0 0 25px rgba(0, 255, 65, 0.1);
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+}
+
+/* On small screens, make side panels full width overlay */
+@media (max-width: 900px) {
+  .details-side-panel,
+  .resume-side-panel {
+    width: 90%;
+    max-width: none;
+    right: -100%;
+    top: 3rem;
+    height: calc(100vh - 4rem);
+  }
+  .details-side-panel.show,
+  .resume-side-panel.show {
+    right: 5%;
+  }
 }
 
 /* ===== Responsive ===== */

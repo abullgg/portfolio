@@ -156,7 +156,7 @@
     if (charIndex1 < text1.length) {
       typedEl1.textContent += text1.charAt(charIndex1);
       charIndex1++;
-      const delay = 60 + Math.random() * 80; // Variable speed for realism
+      const delay = 15 + Math.random() * 25; // Variable speed for realism, very snappy
       setTimeout(typeLine1, delay);
     } else {
       // Line 1 done — pause, hide cursor 1, show line 2 with cursor 2, then type Welcome
@@ -164,8 +164,8 @@
         cursor1.classList.add('hidden');
         welcomeWrap.classList.add('visible');
         cursor2.classList.remove('hidden');
-        setTimeout(typeLine2, 400); // slight delay before typing Welcome!
-      }, 600);
+        setTimeout(typeLine2, 100); // slight delay before typing Welcome!
+      }, 250);
     }
   }
 
@@ -173,13 +173,30 @@
     if (charIndex2 < text2.length) {
       typedEl2.textContent += text2.charAt(charIndex2);
       charIndex2++;
-      const delay = 60 + Math.random() * 80;
+      const delay = 15 + Math.random() * 25;
       setTimeout(typeLine2, delay);
+    } else {
+      const navToggleObj = document.getElementById('nav-toggle');
+      if (navToggleObj) {
+        navToggleObj.classList.add('pulse-active');
+        navToggleObj.classList.add('ping');
+        
+        // Form a recurring radar ping to attract attention if the user hasn't opened the menu yet
+        setInterval(() => {
+          const navMenuObj = document.getElementById('nav-menu');
+          if (navMenuObj && !navMenuObj.classList.contains('open')) {
+            // Force animation restart by violently removing and reapplying the class
+            navToggleObj.classList.remove('ping');
+            void navToggleObj.offsetWidth; // Trigger DOM reflow to reset CSS state
+            navToggleObj.classList.add('ping');
+          }
+        }, 12000);
+      }
     }
   }
 
   // Start typing after a brief delay
-  setTimeout(typeLine1, 800);
+  setTimeout(typeLine1, 150);
 })();
 
 
@@ -191,26 +208,28 @@
   const navToggle = document.getElementById('nav-toggle');
   const navMenu = document.getElementById('nav-menu');
   
-  const navTexts = ['about', 'projects', 'contact'];
+  const navTexts = ['about', 'projects', 'get in touch', 'more'];
   const typedNavEls = [
     document.getElementById('nav-typed-1'),
     document.getElementById('nav-typed-2'),
-    document.getElementById('nav-typed-3')
+    document.getElementById('nav-typed-3'),
+    document.getElementById('nav-typed-4')
   ];
   
   let navTyped = false;
 
   navToggle.addEventListener('click', () => {
     navMenu.classList.toggle('open');
+    navToggle.classList.toggle('rotated');
     
     // Type out nav texts if opening for the first time
     if (!navTyped && navMenu.classList.contains('open')) {
       navTyped = true;
-      let charIndices = [0, 0, 0];
+      let charIndices = [0, 0, 0, 0];
       
       function typeNav() {
         let allDone = true;
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 4; i++) {
           if (charIndices[i] < navTexts[i].length) {
             typedNavEls[i].textContent += navTexts[i].charAt(charIndices[i]);
             charIndices[i]++;
@@ -218,12 +237,12 @@
           }
         }
         if (!allDone) {
-          setTimeout(typeNav, 40 + Math.random() * 60);
+          setTimeout(typeNav, 15 + Math.random() * 20);
         }
       }
       
       // Delay nav typing slightly so the menu has time to slide open
-      setTimeout(typeNav, 200);
+      setTimeout(typeNav, 100);
     }
   });
 
@@ -235,6 +254,7 @@
     aboutLink.addEventListener('click', (e) => {
       e.preventDefault();
       aboutWrapper.classList.toggle('open');
+      scrollToView(aboutWrapper);
     });
   }
 
@@ -246,6 +266,7 @@
     contactLink.addEventListener('click', (e) => {
       e.preventDefault();
       contactWrapper.classList.toggle('open');
+      scrollToView(contactWrapper);
     });
   }
 
@@ -257,6 +278,7 @@
     projectsLink.addEventListener('click', (e) => {
       e.preventDefault();
       projectsWrapper.classList.toggle('open');
+      scrollToView(projectsWrapper);
       
       // Close details if closing the main project tab to keep it tidy
       if (!projectsWrapper.classList.contains('open')) {
@@ -266,14 +288,115 @@
     });
   }
 
-  // PhishGuard details toggle
+  // PhishGuard details side panel toggle
   const pgDetailsLink = document.getElementById('phishguard-details-link');
   const pgDetailsContent = document.getElementById('phishguard-details-content');
+  const sidePanelClose = document.getElementById('side-panel-close');
+  const asciiConnector = document.getElementById('ascii-connector');
 
+  // Resume preview side panel
+  const resumePreviewLink = document.getElementById('resume-preview-link');
+  const resumePanel = document.getElementById('resume-preview-panel');
+  const resumePanelClose = document.getElementById('resume-panel-close');
+
+  // More section toggle
+  const moreLink = document.getElementById('more-link');
+  const moreWrapper = document.getElementById('more-wrapper');
+
+  if (moreLink && moreWrapper) {
+    moreLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      moreWrapper.classList.toggle('open');
+      scrollToView(moreWrapper);
+    });
+  }
+  // Contact form side panel
+  const contactFormLink = document.getElementById('contact-form-link');
+  const contactFormPanel = document.getElementById('contact-form-panel');
+  const formPanelClose = document.getElementById('form-panel-close');
+
+  // Currently on inline panel
+  const currentlyOnLink = document.getElementById('currently-on-link');
+  const currentlyOnInlineContent = document.getElementById('currently-on-inline-content');
+
+  // Helper to ensure dropdowns are fully visible when opened
+  function scrollToView(element) {
+    if (element.classList.contains('open')) {
+      // Small timeout to allow CSS height transition to happen before scrolling
+      setTimeout(() => {
+        const rect = element.getBoundingClientRect();
+        const offset = rect.bottom - window.innerHeight;
+        // Only scroll if the element overflows the bottom of the screen
+        if (offset > 0) {
+          window.scrollBy({
+            top: offset + 60, // Add 60px padding at the bottom so it's not flush with edge
+            left: 0,
+            behavior: 'smooth'
+          });
+        }
+      }, 350); // wait until CSS max-height transition finishes
+    }
+  }
+
+  // Helper to close all side panels
+  function closeAllPanels() {
+    if (pgDetailsContent) pgDetailsContent.classList.remove('show');
+    if (resumePanel) resumePanel.classList.remove('show');
+    if (contactFormPanel) contactFormPanel.classList.remove('show');
+  }
+
+  // Rewire details link
   if (pgDetailsLink && pgDetailsContent) {
+    // Remove old listener by replacing element (clean approach)
     pgDetailsLink.addEventListener('click', (e) => {
       e.preventDefault();
-      pgDetailsContent.classList.toggle('show');
+      const isOpen = pgDetailsContent.classList.contains('show');
+      closeAllPanels();
+      if (!isOpen) pgDetailsContent.classList.add('show');
+    });
+  }
+
+  if (resumePreviewLink && resumePanel) {
+    resumePreviewLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isOpen = resumePanel.classList.contains('show');
+      closeAllPanels();
+      if (!isOpen) resumePanel.classList.add('show');
+    });
+  }
+
+  if (contactFormLink && contactFormPanel) {
+    contactFormLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isOpen = contactFormPanel.classList.contains('show');
+      closeAllPanels();
+      if (!isOpen) contactFormPanel.classList.add('show');
+    });
+  }
+
+  if (sidePanelClose && pgDetailsContent) {
+    sidePanelClose.addEventListener('click', () => {
+      pgDetailsContent.classList.remove('show');
+    });
+  }
+
+  if (resumePanelClose && resumePanel) {
+    resumePanelClose.addEventListener('click', () => {
+      resumePanel.classList.remove('show');
+    });
+  }
+
+  if (formPanelClose && contactFormPanel) {
+    formPanelClose.addEventListener('click', () => {
+      contactFormPanel.classList.remove('show');
+    });
+  }
+
+  if (currentlyOnLink && currentlyOnInlineContent) {
+    currentlyOnLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      currentlyOnInlineContent.classList.toggle('open');
+      scrollToView(currentlyOnInlineContent);
     });
   }
 
@@ -301,13 +424,102 @@
   if (downloadResumeBtn) {
     downloadResumeBtn.addEventListener('click', () => {
       downloadResumeBtn.textContent = '[downloading...]';
-      // Reusing the .copied class for the glowing green text effect
       downloadResumeBtn.classList.add('copied');
       
       setTimeout(() => {
         downloadResumeBtn.textContent = '[d]';
         downloadResumeBtn.classList.remove('copied');
       }, 2500);
+    });
+  }
+
+  // Animated cycling placeholders
+  function cyclePlaceholder(inputEl, phrases, charDelay, pauseDelay) {
+    let phraseIdx = 0;
+    let charIdx = 0;
+    let deleting = false;
+
+    function step() {
+      // Don't animate if user is typing
+      if (document.activeElement === inputEl && inputEl.value.length > 0) {
+        setTimeout(step, pauseDelay);
+        return;
+      }
+
+      const current = phrases[phraseIdx];
+
+      if (!deleting) {
+        inputEl.setAttribute('placeholder', current.substring(0, charIdx + 1));
+        charIdx++;
+        if (charIdx >= current.length) {
+          deleting = true;
+          setTimeout(step, pauseDelay);
+          return;
+        }
+      } else {
+        inputEl.setAttribute('placeholder', current.substring(0, charIdx));
+        charIdx--;
+        if (charIdx < 0) {
+          deleting = false;
+          charIdx = 0;
+          phraseIdx = (phraseIdx + 1) % phrases.length;
+        }
+      }
+      setTimeout(step, deleting ? charDelay / 2 : charDelay);
+    }
+
+    step();
+  }
+
+  const subjectInput = document.querySelector('.terminal-form input[name="subject"]');
+  const messageInput = document.querySelector('.terminal-form textarea[name="message"]');
+
+  if (subjectInput) {
+    subjectInput.setAttribute('placeholder', '');
+    cyclePlaceholder(subjectInput, ['Internship', 'Collaboration', 'Just saying hi'], 70, 1500);
+  }
+
+  if (messageInput) {
+    messageInput.setAttribute('placeholder', '');
+    cyclePlaceholder(messageInput, [
+      "Tell me what you'd like to build together...",
+      "Got a project idea? Let's talk.",
+      "Drop a message, I'll get back to you."
+    ], 40, 2000);
+  }
+
+  // Handle AJAX form submission to prevent redirect
+  const contactFormNode = document.querySelector('.terminal-form');
+  if (contactFormNode) {
+    contactFormNode.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const submitBtn = contactFormNode.querySelector('.form-submit');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '➤  Sending...';
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = '0.5';
+
+      fetch(contactFormNode.action, {
+        method: 'POST',
+        body: new FormData(contactFormNode),
+        mode: 'no-cors'
+      })
+      .then(() => {
+        contactFormNode.innerHTML = `
+          <div class="form-field" style="margin-top: 2rem;">
+            Message delivered successfully. I'll get back to you soon.
+          </div>
+        `;
+      })
+      .catch(error => {
+        submitBtn.innerHTML = '➤  Error! Try again';
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = '1';
+        setTimeout(() => {
+          submitBtn.innerHTML = originalText;
+        }, 3000);
+      });
     });
   }
 })();

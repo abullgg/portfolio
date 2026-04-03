@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Y2K retro landing page with fluid simulation background">
   <title>Welcome // Y2K</title>
-  <link rel="stylesheet" href="style.css?v=12">
+  <link rel="stylesheet" href="style.css?v=21">
 </head>
 
 <body>
@@ -39,10 +39,11 @@
               class="tree-branch">├── </span><span id="nav-typed-1"></span></a>
           <div class="dropdown-content">
             <div class="glass-panel">
-              Computer Science student building backend systems and data-driven applications.<br>
-              Comfortable with Java, Python, and DSA, and currently exploring real-time analytics and AI-assisted
-              development.<br>
-              I like turning raw data into dashboards and more than dashboards.
+              Computer Science fresher building backend systems and data-driven applications.<br>
+              Comfortable with Java, Spring Boot, Python, and DSA. Currently exploring ML inference
+              pipelines and AI-assisted development workflows.<br><br>
+              Interested in: backend architecture, real-time analytics, placement opportunities
+              in backend/data roles.
             </div>
           </div>
         </div>
@@ -52,41 +53,63 @@
           <div class="dropdown-content">
             <div class="glass-panel project-panel">
               <span class="matrix-highlight">[1] PhishGuard</span><br>
-              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>ML-based phishing detection system<br>
-              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Real-time URL analysis with confidence scoring<br>
-              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Django + Scikit-learn backend<br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Detects zero-day phishing URLs via TF-IDF + Logistic Regression<br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Real-time inference with &lt;50ms latency (globally loaded model)<br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Built with Django REST API + Scikit-learn<br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>95%+ accuracy on test set, deployed on Render<br>
               <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span><a href="https://phishgaurd-86eh.onrender.com" target="_blank" rel="noopener noreferrer" class="contact-external-link">[Live Demo]</a> &nbsp;<a href="https://github.com/abullgg/Phishgaurd" target="_blank" rel="noopener noreferrer" class="contact-external-link">[GitHub]</a> &nbsp;<a href="#details" class="contact-external-link" id="phishguard-details-link" onclick="event.preventDefault();">[Details]</a>
-              
-              <div id="phishguard-details-content" class="project-details">
-                <span class="prompt">&gt; project: PhishGuard</span><br><br>
-                A full-stack machine learning application designed to detect zero-day phishing URLs through real-time lexical analysis.<br><br>
-                Instead of relying on static blocklists, the system uses a TF-IDF vectorizer with a Logistic Regression model to evaluate URL patterns and assign confidence-based predictions. The model is loaded globally to eliminate runtime latency and optimize inference speed.<br><br>
-                The platform includes a RESTful API for integration and an internal dashboard for tracking predictions, enabling monitoring of threat patterns and system performance.<br><br>
-                Focus: real-time ML inference, backend architecture, and security-focused application design.<br><br>
-                Tech: Python, Django, Scikit-learn, Pandas, Tailwind CSS
-              </div>
+
+              <div class="project-divider"></div>
+
+              <span class="matrix-highlight">[2] Run Club Platform</span><br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Spring Boot backend for event discovery &amp; registration<br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Event creation with host authorization, city-based filtering<br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Transactional waitlist system preventing overbooking &amp; duplicates<br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span><span class="status-badge">MVP ~45% complete</span> — Service/Entity layer tested, auth phase pending
             </div>
           </div>
         </div>
 
         <div class="nav-item-wrapper" id="contact-wrapper">
           <a href="#contact" class="nav-link" id="contact-link" onclick="event.preventDefault();"><span
-              class="tree-branch">└── </span><span id="nav-typed-3"></span></a>
+              class="tree-branch">├── </span><span id="nav-typed-3"></span></a>
           <div class="dropdown-content">
             <div class="retro-tree-panel">
+              <span class="contact-intro">Open to internships, collaborations, and interesting conversations.<br>
+              Use the form below or reach me directly:</span>
               <span class="tree-branch">&nbsp;&nbsp;&nbsp;├─ </span><a href="https://www.linkedin.com/in/abul-hassangg"
                 target="_blank" rel="noopener noreferrer" class="contact-external-link">LinkedIn</a><br>
               <span class="tree-branch">&nbsp;&nbsp;&nbsp;├─ </span><a href="https://github.com/abullgg" target="_blank"
                 rel="noopener noreferrer" class="contact-external-link">GitHub</a><br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;├─ </span><a href="mailto:hassanabul9279@gmail.com"
+                class="contact-external-link">Email</a><sub class="sub-action copy-btn" id="copy-email"
+                title="Copy email address">[c]</sub><br>
               <span class="tree-branch">&nbsp;&nbsp;&nbsp;├─ </span><a
-                href="https://drive.google.com/file/d/1N3kH4jjJiE2oCB40Sh09ejhF7Tya0WNO/view?usp=sharing"
-                target="_blank" rel="noopener noreferrer" class="contact-external-link">Resume</a><sub
+                href="#resume-preview" onclick="event.preventDefault();"
+                class="contact-external-link" id="resume-preview-link">Resume</a><sub
                 class="sub-action"><a
                   href="https://drive.google.com/uc?export=download&amp;id=1N3kH4jjJiE2oCB40Sh09ejhF7Tya0WNO"
                   title="Download Resume" class="sub-link" id="download-resume">[d]</a></sub><br>
-              <span class="tree-branch">&nbsp;&nbsp;&nbsp;└─ </span><a href="mailto:hassanabul9279@gmail.com"
-                class="contact-external-link">Email</a><sub class="sub-action copy-btn" id="copy-email"
-                title="Copy email address">[c]</sub>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;└─ </span><a href="#contact-form" onclick="event.preventDefault();"
+                class="contact-external-link" id="contact-form-link">contact</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item-wrapper" id="more-wrapper">
+          <a href="#more" class="nav-link" id="more-link" onclick="event.preventDefault();"><span
+              class="tree-branch">└── </span><span id="nav-typed-4"></span></a>
+          <div class="dropdown-content">
+            <div class="retro-tree-panel">
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;├─ </span><a href="#currently-on" onclick="event.preventDefault();" class="contact-external-link" id="currently-on-link">Currently on</a>
+              <div class="inline-dropdown glass-panel project-panel" id="currently-on-inline-content">
+                <span class="matrix-highlight">Building:</span><br>
+                <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Run Club Platform (discovering events, real-time registration)<br>
+                <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Backend fundamentals (Spring, PostgreSQL, system design)<br>
+                <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>DSA &amp; algorithms for placements<br>
+                <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span><span class="matrix-highlight">Looking for:</span> backend/data internships &amp; challenging problems
+              </div>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;└─ </span><span class="matrix-highlight">v1.0</span> // built with raw HTML, CSS & JS
             </div>
           </div>
         </div>
@@ -94,7 +117,58 @@
     </div>
   </main>
 
-  <script src="script.js?v=12"></script>
+  <!-- Details side panel -->
+  <aside class="details-side-panel glass-panel" id="phishguard-details-content">
+    <button class="side-panel-close" id="side-panel-close" title="Close">&times;</button>
+    <span class="prompt">&gt; project: PhishGuard</span><br><br>
+    A full-stack machine learning application designed to detect zero-day phishing URLs through real-time lexical analysis.<br><br>
+    Instead of relying on static blocklists, the system uses a TF-IDF vectorizer with a Logistic Regression model to evaluate URL patterns and assign confidence-based predictions. The model is loaded globally to eliminate runtime latency and optimize inference speed.<br><br>
+    The platform includes a RESTful API for integration and an internal dashboard for tracking predictions, enabling monitoring of threat patterns and system performance.<br><br>
+    Focus: real-time ML inference, backend architecture, and security-focused application design.<br><br>
+    Tech: Python, Django, Scikit-learn, Pandas, Tailwind CSS
+  </aside>
+
+  <!-- Resume preview side panel -->
+  <aside class="resume-side-panel" id="resume-preview-panel">
+    <button class="side-panel-close" id="resume-panel-close" title="Close">&times;</button>
+    <iframe id="resume-iframe" loading="lazy"
+      src="https://drive.google.com/file/d/1N3kH4jjJiE2oCB40Sh09ejhF7Tya0WNO/preview"
+      allow="autoplay"></iframe>
+  </aside>
+
+  <!-- Contact form side panel -->
+  <aside class="details-side-panel glass-panel" id="contact-form-panel">
+    <button class="side-panel-close" id="form-panel-close" title="Close">&times;</button>
+    <form class="terminal-form" action="https://formsubmit.co/hassanabul9279@gmail.com" method="POST">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_subject" value="Portfolio Contact Form">
+
+      <div class="form-field">
+        <label class="form-label">NAME</label>
+        <input type="text" name="name" class="form-input" placeholder="your name" required>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">EMAIL</label>
+        <input type="email" name="email" class="form-input" placeholder="you@email.com" required>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">SUBJECT</label>
+        <input type="text" name="subject" class="form-input" placeholder="Internship · Collaboration · Just saying hi">
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">MESSAGE</label>
+        <textarea name="message" class="form-input form-textarea" placeholder="Tell me what you'd like to build together..." required></textarea>
+      </div>
+
+      <button type="submit" class="form-submit">➤&nbsp; Send Message</button>
+    </form>
+  </aside>
+
+  <script src="script.js?v=21"></script>
 </body>
 
 </html>
