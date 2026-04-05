@@ -21,7 +21,7 @@
   <!-- Dynamic SVG Favicon (Green Retro Alien 👾) -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 8' shape-rendering='crispEdges'%3E%3Cpath fill='%2300ff41' d='M2 0h1v1H2zM8 0h1v1H8zM3 1h1v1H3zM7 1h1v1H7zM2 2h7v1H2zM0 3h2v1H0zM3 3h1v1H3zM7 3h1v1H7zM9 3h2v1H9zM0 4h11v1H0zM0 5h1v1H0zM2 5h7v1H2zM10 5h1v1H10zM0 6h1v1H0zM2 6h1v1H2zM8 6h1v1H8zM10 6h1v1H10zM3 7h2v1H3zM6 7h2v1H6z'/%3E%3C/svg%3E">
   
-  <link rel="stylesheet" href="style.css?v=21">
+  <link rel="stylesheet" href="style.css?v=31">
 </head>
 
 <body>
@@ -35,8 +35,19 @@
   <!-- Vignette edge darkening -->
   <div class="vignette"></div>
 
-  <!-- Logo tag top left -->
-  <div class="logo-tag">Abul Hassan.dev</div>
+  <!-- Top right actions -->
+  <div class="top-right-actions">
+    <a href="#resume-preview" id="floating-resume-btn" class="floating-circle-btn" title="View Resume">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+    </a>
+    <div class="logo-tag" id="logo-tag-trigger">Abul Hassan.dev</div>
+  </div>
 
   <!-- Main content -->
   <main class="landing-container">
@@ -67,20 +78,21 @@
           <a href="#projects" class="nav-link" id="projects-link" onclick="event.preventDefault();"><span class="tree-branch">├── </span><span id="nav-typed-2"></span></a>
           <div class="dropdown-content">
             <div class="glass-panel project-panel">
-              <span class="matrix-highlight">[1] PhishGuard</span><br>
+              <span class="matrix-highlight">[1] cmnty-backend</span><br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Java Spring Boot REST API with PostgreSQL persistence and global exception handling<br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Spring Security + JWT authentication utilizing BCrypt hashing and role-based access control<br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Transactional event registration utilizing strict capacity enforcement to prevent overbooking<br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Paginated event discovery engine equipped with dynamic searching and filtering<br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span><a href="https://github.com/abullgg/cmnty" target="_blank" rel="noopener noreferrer" class="contact-external-link">[GitHub]</a> &nbsp;<a href="#details" class="contact-external-link" id="cmnty-details-link" onclick="event.preventDefault();">[Details]</a>
+
+              <div class="project-divider"></div>
+
+              <span class="matrix-highlight">[2] PhishGuard</span><br>
               <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Detects zero-day phishing URLs via TF-IDF + Logistic Regression<br>
               <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Real-time inference with &lt;50ms latency (globally loaded model)<br>
               <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Built with Django REST API + Scikit-learn<br>
               <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>95%+ accuracy on test set, deployed on Render<br>
               <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span><a href="https://phishgaurd-86eh.onrender.com" target="_blank" rel="noopener noreferrer" class="contact-external-link">[Live Demo]</a> &nbsp;<a href="https://github.com/abullgg/Phishgaurd" target="_blank" rel="noopener noreferrer" class="contact-external-link">[GitHub]</a> &nbsp;<a href="#details" class="contact-external-link" id="phishguard-details-link" onclick="event.preventDefault();">[Details]</a>
-
-              <div class="project-divider"></div>
-
-              <span class="matrix-highlight">[2] Run Club Platform</span><br>
-              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Spring Boot backend for event discovery &amp; registration<br>
-              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Event creation with host authorization, city-based filtering<br>
-              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Transactional waitlist system preventing overbooking &amp; duplicates<br>
-              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span><span class="status-badge">MVP ~45% complete</span> — Service/Entity layer tested, auth phase pending
             </div>
           </div>
         </div>
@@ -119,7 +131,7 @@
               <span class="tree-branch">&nbsp;&nbsp;&nbsp;├─ </span><a href="#currently-on" onclick="event.preventDefault();" class="contact-external-link" id="currently-on-link">Currently on</a>
               <div class="inline-dropdown glass-panel project-panel" id="currently-on-inline-content">
                 <span class="matrix-highlight">Building:</span><br>
-                <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Run Club Platform (discovering events, real-time registration)<br>
+                <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>cmnty-backend (community activity platform, real-world events)<br>
                 <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Backend fundamentals (Spring, PostgreSQL, system design)<br>
                 <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>DSA &amp; algorithms for placements<br>
                 <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span><span class="matrix-highlight">Looking for:</span> backend/data internships &amp; challenging problems
@@ -132,7 +144,7 @@
     </div>
   </main>
 
-  <!-- Details side panel -->
+  <!-- Details side panels -->
   <aside class="details-side-panel glass-panel" id="phishguard-details-content">
     <button class="side-panel-close" id="side-panel-close" title="Close">&times;</button>
     <span class="prompt">&gt; project: PhishGuard</span><br><br>
@@ -143,12 +155,66 @@
     Tech: Python, Django, Scikit-learn, Pandas, Tailwind CSS
   </aside>
 
+  <aside class="details-side-panel glass-panel" id="cmnty-details-content">
+    <button class="side-panel-close" id="cmnty-panel-close" title="Close">&times;</button>
+    <span class="prompt">&gt; project: cmnty-backend</span><br><br>
+    A robust RESTful API designed to power scalable community event management, club hosting, and user registrations.<br><br>
+    Instead of basic CRUD, the system employs strict role-based access control and transactional database locks to enforce real-time event capacity limits, eliminating vulnerabilities like overlapping concurrent registrations. Security is handled natively via stateless JSON Web Tokens (JWT) and BCrypt password hashing.<br><br>
+    The platform includes a complex data delivery mechanism utilizing custom DTOs, dynamic JPA pagination, and precise ISO date filtering to optimize payload size and performance for downstream frontend clients.<br><br>
+    Focus: Enterprise REST API design, secure application architecture, and transactional data integrity.<br><br>
+    Tech: Java 17, Spring Boot, PostgreSQL, Spring Security, Hibernate/JPA, Mockito
+  </aside>
+
   <!-- Resume preview side panel -->
   <aside class="resume-side-panel" id="resume-preview-panel">
     <button class="side-panel-close" id="resume-panel-close" title="Close">&times;</button>
     <iframe id="resume-iframe" loading="lazy"
       src="https://drive.google.com/file/d/1N3kH4jjJiE2oCB40Sh09ejhF7Tya0WNO/preview"
       allow="autoplay"></iframe>
+  </aside>
+
+  <!-- Empty Namecard side panel -->
+  <aside class="details-side-panel glass-panel" id="namecard-panel">
+    <button class="side-panel-close" id="namecard-panel-close" title="Close">&times;</button>
+    
+    <div class="id-card-layout">
+      <!-- ID Photo Left -->
+      <div class="id-photo-col">
+        <img src="profile_id.jpg" alt="Gov ID Reference" class="gov-id-photo">
+      </div>
+      
+      <!-- Form-style Details Right -->
+      <div class="id-details-col terminal-form">
+        <div class="form-row">
+          <div class="form-field form-name-field">
+            <label class="form-label">NAME</label>
+            <div class="form-display-value">Abul Hassan</div>
+          </div>
+          <div class="form-field form-age-field">
+            <label class="form-label">AGE</label>
+            <div class="form-display-value">20</div>
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="form-label">LOCATION</label>
+          <div class="form-display-value">Coimbatore, India</div>
+        </div>
+        <div class="form-field">
+          <label class="form-label">FOCUS</label>
+          <div class="form-display-value">SDE/Backend &amp; Data Roles</div>
+        </div>
+        <div class="form-field">
+          <label class="form-label">PRONOUNS</label>
+          <div class="form-display-value">He/Him</div>
+        </div>
+
+        <div class="id-social-links">
+          <a href="https://github.com/abullgg" target="_blank" class="id-link">[GitHub]</a>
+          <a href="https://www.linkedin.com/in/abul-hassangg/" target="_blank" class="id-link">[LinkedIn]</a>
+          <a href="mailto:hassanabul9279@gmail.com" class="id-link">[Email]</a>
+        </div>
+      </div>
+    </div>
   </aside>
 
   <!-- Contact form side panel -->
@@ -183,7 +249,7 @@
     </form>
   </aside>
 
-  <script src="script.js?v=21"></script>
+  <script src="script.js?v=28"></script>
 </body>
 
 </html>

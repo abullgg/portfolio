@@ -140,7 +140,7 @@
    ============================================ */
 
 (function () {
-  const text1 = 'hi, so you are here??';
+  const text1 = 'Hi, I build scalable backend systems and data-driven solutions';
   const typedEl1 = document.getElementById('typed-text-1');
   const cursor1 = document.getElementById('cursor-1');
 
@@ -175,24 +175,32 @@
       charIndex2++;
       const delay = 15 + Math.random() * 25;
       setTimeout(typeLine2, delay);
-    } else {
-      const navToggleObj = document.getElementById('nav-toggle');
-      if (navToggleObj) {
-        navToggleObj.classList.add('pulse-active');
-        navToggleObj.classList.add('ping');
+      } else {
+        const navToggleObj = document.getElementById('nav-toggle');
+        const navMenuObj = document.getElementById('nav-menu');
         
-        // Form a recurring radar ping to attract attention if the user hasn't opened the menu yet
-        setInterval(() => {
-          const navMenuObj = document.getElementById('nav-menu');
-          if (navMenuObj && !navMenuObj.classList.contains('open')) {
-            // Force animation restart by violently removing and reapplying the class
-            navToggleObj.classList.remove('ping');
-            void navToggleObj.offsetWidth; // Trigger DOM reflow to reset CSS state
-            navToggleObj.classList.add('ping');
-          }
-        }, 12000);
+        if (navToggleObj) {
+          navToggleObj.classList.add('pulse-active');
+          navToggleObj.classList.add('ping');
+          
+          // Auto-open menu after 1 second if not already opened
+          setTimeout(() => {
+            if (navMenuObj && !navMenuObj.classList.contains('open')) {
+              navToggleObj.click(); // Trigger the existing click logic which handles all typing
+            }
+          }, 1000);
+
+          // Form a recurring radar ping to attract attention if the user hasn't opened the menu yet
+          setInterval(() => {
+            if (navMenuObj && !navMenuObj.classList.contains('open')) {
+              // Force animation restart by violently removing and reapplying the class
+              navToggleObj.classList.remove('ping');
+              void navToggleObj.offsetWidth; // Trigger DOM reflow to reset CSS state
+              navToggleObj.classList.add('ping');
+            }
+          }, 5000);
+        }
       }
-    }
   }
 
   // Start typing after a brief delay
@@ -267,6 +275,15 @@
       e.preventDefault();
       contactWrapper.classList.toggle('open');
       scrollToView(contactWrapper);
+
+      // Close contact and resume panels if main contact tab is collapsed
+      if (!contactWrapper.classList.contains('open')) {
+        const contactFormPanel = document.getElementById('contact-form-panel');
+        if (contactFormPanel) contactFormPanel.classList.remove('show');
+        
+        const resumePanel = document.getElementById('resume-preview-panel');
+        if (resumePanel) resumePanel.classList.remove('show');
+      }
     });
   }
 
@@ -284,6 +301,9 @@
       if (!projectsWrapper.classList.contains('open')) {
         const pgDetailsContent = document.getElementById('phishguard-details-content');
         if (pgDetailsContent) pgDetailsContent.classList.remove('show');
+        
+        const cmntyDetailsContent = document.getElementById('cmnty-details-content');
+        if (cmntyDetailsContent) cmntyDetailsContent.classList.remove('show');
       }
     });
   }
@@ -293,6 +313,11 @@
   const pgDetailsContent = document.getElementById('phishguard-details-content');
   const sidePanelClose = document.getElementById('side-panel-close');
   const asciiConnector = document.getElementById('ascii-connector');
+
+  // cmnty-backend details side panel toggle
+  const cmntyDetailsLink = document.getElementById('cmnty-details-link');
+  const cmntyDetailsContent = document.getElementById('cmnty-details-content');
+  const cmntyPanelClose = document.getElementById('cmnty-panel-close');
 
   // Resume preview side panel
   const resumePreviewLink = document.getElementById('resume-preview-link');
@@ -341,8 +366,13 @@
   // Helper to close all side panels
   function closeAllPanels() {
     if (pgDetailsContent) pgDetailsContent.classList.remove('show');
+    if (cmntyDetailsContent) cmntyDetailsContent.classList.remove('show');
     if (resumePanel) resumePanel.classList.remove('show');
     if (contactFormPanel) contactFormPanel.classList.remove('show');
+    
+    // namecard panel
+    const namecardPanel = document.getElementById('namecard-panel');
+    if (namecardPanel) namecardPanel.classList.remove('show');
   }
 
   // Rewire details link
@@ -356,8 +386,27 @@
     });
   }
 
+  if (cmntyDetailsLink && cmntyDetailsContent) {
+    cmntyDetailsLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isOpen = cmntyDetailsContent.classList.contains('show');
+      closeAllPanels();
+      if (!isOpen) cmntyDetailsContent.classList.add('show');
+    });
+  }
+
   if (resumePreviewLink && resumePanel) {
     resumePreviewLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isOpen = resumePanel.classList.contains('show');
+      closeAllPanels();
+      if (!isOpen) resumePanel.classList.add('show');
+    });
+  }
+
+  const floatingResumeBtn = document.getElementById('floating-resume-btn');
+  if (floatingResumeBtn && resumePanel) {
+    floatingResumeBtn.addEventListener('click', (e) => {
       e.preventDefault();
       const isOpen = resumePanel.classList.contains('show');
       closeAllPanels();
@@ -380,6 +429,12 @@
     });
   }
 
+  if (cmntyPanelClose && cmntyDetailsContent) {
+    cmntyPanelClose.addEventListener('click', () => {
+      cmntyDetailsContent.classList.remove('show');
+    });
+  }
+
   if (resumePanelClose && resumePanel) {
     resumePanelClose.addEventListener('click', () => {
       resumePanel.classList.remove('show');
@@ -390,6 +445,26 @@
     formPanelClose.addEventListener('click', () => {
       contactFormPanel.classList.remove('show');
     });
+  }
+
+  // Namecard Panel logic
+  const logoTagTrigger = document.getElementById('logo-tag-trigger');
+  const namecardPanel = document.getElementById('namecard-panel');
+  const namecardPanelClose = document.getElementById('namecard-panel-close');
+
+  if (logoTagTrigger && namecardPanel) {
+    logoTagTrigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isOpen = namecardPanel.classList.contains('show');
+      closeAllPanels();
+      if (!isOpen) namecardPanel.classList.add('show');
+    });
+
+    if (namecardPanelClose) {
+      namecardPanelClose.addEventListener('click', () => {
+        namecardPanel.classList.remove('show');
+      });
+    }
   }
 
   if (currentlyOnLink && currentlyOnInlineContent) {
