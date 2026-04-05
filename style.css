@@ -442,7 +442,7 @@ html, body {
 
 .glass-panel {
   margin-left: 2.5rem;
-  background: rgba(0, 255, 65, 0.05);
+  background: rgba(0, 255, 65, 0.12);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(0, 255, 65, 0.2);
@@ -637,7 +637,7 @@ html, body {
   width: 48%;
   max-width: 620px;
   height: calc(100vh - 7rem);
-  background: rgba(0, 255, 65, 0.05);
+  background: rgba(0, 255, 65, 0.12);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(0, 255, 65, 0.2);
