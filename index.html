@@ -21,7 +21,7 @@
   <!-- Dynamic SVG Favicon (Neon Green Racing AH) -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3Cfilter id='g' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeGaussianBlur stdDeviation='2.5' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg transform='translate(53, 70) skewX(-15)'%3E%3Ctext x='0' y='0' font-family='sans-serif' font-weight='900' font-size='60' fill='%2300ff41' filter='url(%23g)' text-anchor='middle'%3EAH%3C/text%3E%3C/g%3E%3C/svg%3E">
   
-  <link rel="stylesheet" href="style.css?v=31">
+  <link rel="stylesheet" href="style.css?v=32">
 </head>
 
 <body>
@@ -87,7 +87,16 @@
 
               <div class="project-divider"></div>
 
-              <span class="matrix-highlight">[2] PhishGuard</span><br>
+              <span class="matrix-highlight">[2] RAG Document Assistant</span><br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Locally-run document Q&amp;A — upload a PDF/TXT, ask questions in natural language<br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Hybrid FAISS + BM25 retrieval with local LLM inference via Ollama (Gemma 3 4B)<br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>FastAPI backend + Next.js chat UI — zero cloud dependency, runs entirely on-device<br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Async ingestion pipeline with background job tracking and live status polling<br>
+              <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span><a href="https://github.com/abullgg/RAG_Doc_Assist" target="_blank" rel="noopener noreferrer" class="contact-external-link">[GitHub]</a> &nbsp;<a href="#details" class="contact-external-link" id="rag-details-link" onclick="event.preventDefault();">[Details]</a>
+
+              <div class="project-divider"></div>
+
+              <span class="matrix-highlight">[3] PhishGuard</span><br>
               <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Detects zero-day phishing URLs via TF-IDF + Logistic Regression<br>
               <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Real-time inference with &lt;50ms latency (globally loaded model)<br>
               <span class="tree-branch">&nbsp;&nbsp;&nbsp;→ </span>Built with Django REST API + Scikit-learn<br>
@@ -163,6 +172,17 @@
     The platform includes a complex data delivery mechanism utilizing custom DTOs, dynamic JPA pagination, and precise ISO date filtering to optimize payload size and performance for downstream frontend clients.<br><br>
     Focus: Enterprise REST API design, secure application architecture, and transactional data integrity.<br><br>
     Tech: Java 17, Spring Boot, PostgreSQL, Spring Security, Hibernate/JPA, Mockito
+  </aside>
+
+  <!-- RAG Document Assistant details side panel -->
+  <aside class="details-side-panel glass-panel" id="rag-details-content">
+    <button class="side-panel-close" id="rag-panel-close" title="Close">&times;</button>
+    <span class="prompt">&gt; project: rag-document-assistant</span><br><br>
+    A full-stack document intelligence tool that lets you upload a PDF or TXT file and ask natural language questions against it — all processed locally on your machine.<br><br>
+    Instead of cloud-dependent APIs, the system runs local LLM inference via Ollama with Gemma 3 4B, reducing infrastructure costs while maintaining robust document processing. Async ingestion pipelines handle PDFs with <code>pdfplumber</code> (text + table extraction) and TXT with UTF-8/latin-1 fallback, ensuring reliable data parsing at scale.<br><br>
+    The platform features hybrid semantic-keyword retrieval combining FAISS vector search with BM25 ranking, re-ranked results isolated per upload, and background job tracking for large file processing. Frontend delivers a ChatGPT-style interface with full conversation history, markdown rendering, live health monitoring, and Railway-inspired dark design.<br><br>
+    Focus: Cost-efficient local inference, hybrid retrieval architecture, and real-time document Q&amp;A.<br><br>
+    Tech: FastAPI, pdfplumber, FAISS, BM25, Ollama (Gemma 3 4B), Next.js, TypeScript, Vanilla CSS
   </aside>
 
   <!-- Resume preview side panel -->
@@ -249,7 +269,7 @@
     </form>
   </aside>
 
-  <script src="script.js?v=28"></script>
+  <script src="script.js?v=29"></script>
 </body>
 
 </html>

@@ -319,6 +319,11 @@
   const cmntyDetailsContent = document.getElementById('cmnty-details-content');
   const cmntyPanelClose = document.getElementById('cmnty-panel-close');
 
+  // RAG Document Assistant details side panel
+  const ragDetailsLink = document.getElementById('rag-details-link');
+  const ragDetailsContent = document.getElementById('rag-details-content');
+  const ragPanelClose = document.getElementById('rag-panel-close');
+
   // Resume preview side panel
   const resumePreviewLink = document.getElementById('resume-preview-link');
   const resumePanel = document.getElementById('resume-preview-panel');
@@ -367,6 +372,7 @@
   function closeAllPanels() {
     if (pgDetailsContent) pgDetailsContent.classList.remove('show');
     if (cmntyDetailsContent) cmntyDetailsContent.classList.remove('show');
+    if (ragDetailsContent) ragDetailsContent.classList.remove('show');
     if (resumePanel) resumePanel.classList.remove('show');
     if (contactFormPanel) contactFormPanel.classList.remove('show');
     
@@ -432,6 +438,21 @@
   if (cmntyPanelClose && cmntyDetailsContent) {
     cmntyPanelClose.addEventListener('click', () => {
       cmntyDetailsContent.classList.remove('show');
+    });
+  }
+
+  if (ragDetailsLink && ragDetailsContent) {
+    ragDetailsLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isOpen = ragDetailsContent.classList.contains('show');
+      closeAllPanels();
+      if (!isOpen) ragDetailsContent.classList.add('show');
+    });
+  }
+
+  if (ragPanelClose && ragDetailsContent) {
+    ragPanelClose.addEventListener('click', () => {
+      ragDetailsContent.classList.remove('show');
     });
   }
 
