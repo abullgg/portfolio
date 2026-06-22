@@ -30,6 +30,27 @@
     mouseY = -9999;
   });
 
+  /* ---- Cursor Torch / Flashlight Effect ---- */
+  /* Moves the vignette radial gradient to follow the cursor */
+  const vignetteEl = document.querySelector('.vignette');
+  if (vignetteEl) {
+    document.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+      vignetteEl.style.background =
+        `radial-gradient(circle at ${x}% ${y}%, transparent 30%, rgba(0, 0, 0, 0.85) 120%)`;
+      vignetteEl.style.boxShadow =
+        `inset 0 0 150px rgba(0, 0, 0, 0.8)`;
+    });
+
+    document.addEventListener('mouseleave', () => {
+      vignetteEl.style.background =
+        'radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.6) 100%)';
+      vignetteEl.style.boxShadow =
+        'inset 0 0 150px rgba(0, 0, 0, 0.8)';
+    });
+  }
+
   // ---------- Particle class ----------
   class Particle {
     constructor() {
@@ -119,7 +140,7 @@
   // ---------- Animation loop ----------
   function animate(time) {
     ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = 'rgba(10, 10, 10, 1)';
+    ctx.fillStyle = 'rgba(0, 0, 0, 1)';
     ctx.fillRect(0, 0, width, height);
 
     for (let i = 0; i < particles.length; i++) {
