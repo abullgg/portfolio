@@ -870,14 +870,24 @@ code {
   align-items: stretch;
 }
 
-.about-grid {
-  grid-template-columns: 5fr 3fr 3fr;
-  transition: grid-template-columns 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
+@media (min-width: 601px) {
+  .about-grid {
+    grid-template-columns: 5fr 3fr 3fr;
+    transition: grid-template-columns 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
 
-/* When stack tile is hovered, redistribute: bio shrinks, stack grows, stats shrinks */
-.about-grid:has(.stack-expandable:hover) {
-  grid-template-columns: 2fr 8fr 1.5fr;
+  /* When stack tile is hovered, redistribute: bio shrinks, stack grows, stats shrinks */
+  .about-grid:has(.stack-expandable:hover) {
+    grid-template-columns: 2fr 8fr 1.5fr;
+  }
+
+  /* Prevent text wrapping/reflow during shrinking animation by locking inner width */
+  .about-grid:has(.stack-expandable:hover) #about-tile .tile-body-inner {
+    width: 460px;
+  }
+  .about-grid:has(.stack-expandable:hover) #stats-tile .tile-body-inner {
+    width: 250px;
+  }
 }
 
 /* Hide overflow on shrinking tiles so content doesn't spill */
@@ -971,6 +981,12 @@ code {
   line-height: 1.6;
   color: #e0e0e0;
   flex: 1;
+  overflow: hidden; /* Ensure inner wrapper clipping works */
+}
+
+.tile-body-inner {
+  width: 100%;
+  transition: width 0.3s ease;
 }
 
 .tile-comment {
@@ -1066,6 +1082,25 @@ code {
   overflow: hidden;
 }
 
+.stack-default-wrapper,
+.stack-expanded-wrapper {
+  display: grid;
+  transition: grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stack-default-wrapper {
+  grid-template-rows: 1fr;
+}
+
+.stack-expanded-wrapper {
+  grid-template-rows: 0fr;
+}
+
+.stack-default-inner,
+.stack-expanded-inner {
+  overflow: hidden;
+}
+
 .stack-default {
   display: grid;
   opacity: 1;
@@ -1073,21 +1108,28 @@ code {
 }
 
 .stack-expanded {
-  display: none;
+  display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1.2rem 1rem;
   opacity: 0;
-  transition: opacity 0.3s ease 0.15s;
+  transition: opacity 0.25s ease;
+}
+
+.stack-expandable:hover .stack-default-wrapper {
+  grid-template-rows: 0fr;
+}
+
+.stack-expandable:hover .stack-expanded-wrapper {
+  grid-template-rows: 1fr;
 }
 
 .stack-expandable:hover .stack-default {
-  display: none;
   opacity: 0;
 }
 
 .stack-expandable:hover .stack-expanded {
-  display: grid;
   opacity: 1;
+  transition: opacity 0.3s ease 0.1s;
 }
 
 /* ---- Stats Body ---- */
@@ -1272,6 +1314,10 @@ code {
   .bento-grid {
     margin-left: 0.5rem;
     width: calc(100% - 0.5rem);
+  }
+  .stack-expanded {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem 0.8rem;
   }
 }
 
